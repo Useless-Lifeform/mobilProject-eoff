@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mert);
     }
     public void openMeterRecords(View view) {
-        /*Intent megverlek = new Intent(this, MeterReading.class);
+        /*Intent megverlek = new Intent(this, OldReadings.class);
         startActivity(megverlek);//TODO: itt mást kell hívni!!!*/
     }
 }

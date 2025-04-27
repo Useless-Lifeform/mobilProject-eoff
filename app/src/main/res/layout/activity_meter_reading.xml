@@ -7,13 +7,61 @@
     android:layout_height="match_parent"
     tools:context=".MeterReading">
 
+    <FrameLayout
+        android:id="@+id/bannerColor"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#097AEB"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <TextView
-        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="even more W.I.P. :("
+        android:text="@string/mero_bedikt"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/bannerColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bannerColor" />
+
+    <Spinner
+        android:id="@+id/pmerok_spinner"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bannerColor"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <EditText
+        android:id="@+id/meroAllasET"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:hint="óraállás"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pmerok_spinner" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kWh"
+        app:layout_constraintStart_toEndOf="@id/meroAllasET"
+        app:layout_constraintBaseline_toBaselineOf="@id/meroAllasET"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bejelentés"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meroAllasET" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

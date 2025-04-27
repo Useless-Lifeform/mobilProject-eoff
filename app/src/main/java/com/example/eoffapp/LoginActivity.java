@@ -64,8 +64,15 @@ public class LoginActivity extends AppCompatActivity {
         passwordET.addTextChangedListener(loginTextWatcher);
     }
 
+/***/public void login2(View view) {///MAJD VEDD KI!
+        Intent intent = new Intent(this, ProfilActivity.class);
+        startActivity(intent);
+    }
     public void login(View view) {//ET EditText      TV TextView
         loginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click));
+
+
+
 
         String userName = usernameET.getText().toString();
         String password = passwordET.getText().toString();

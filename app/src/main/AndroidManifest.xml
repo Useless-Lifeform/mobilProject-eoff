@@ -13,6 +13,9 @@
         android:theme="@style/Theme.EOffApp"
         tools:targetApi="31">
         <activity
+            android:name=".OldRedings"
+            android:exported="false" />
+        <activity
             android:name=".MeterReading"
             android:exported="false" />
         <activity

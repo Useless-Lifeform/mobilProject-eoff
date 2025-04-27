@@ -14,4 +14,6 @@
     <string name="passAgin">Jelszó újból:</string>
     <string name="registBig">REGISZTRÁCIÓ</string>
     <string name="myAccount">Profilom</string>
+    <string name="mero_bedikt">Mérőóra Bediktálás</string>
+    <string name="old_readings">Korábbi mérések</string>
 </resources>
