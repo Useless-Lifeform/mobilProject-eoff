@@ -17,7 +17,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,14 +29,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bannerColor" />
 
-    <!-- nincs itt semmi kép -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ReadingBox"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bannerColor" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
+    <!-- "nincs itt semmi" kép -->
     <ImageView
-        android:layout_width="wrap_content"
+        android:id="@+id/nothingIcon"
+          android:visibility="visible"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="*****************************"
+        android:src="@drawable/nothinghere"
         app:layout_constraintTop_toBottomOf="@id/bannerColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#098AEB"
+        android:id="@+id/buziDeleteButton"
+        android:text="<"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

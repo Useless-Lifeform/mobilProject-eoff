@@ -98,6 +98,31 @@
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:text="Keresztneved: "
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/nameET"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:autofillHints="password"
+            android:hint="Napoleon"
+            android:inputType="text|textPersonName" />
+    </LinearLayout>
+
+
+    <LinearLayout
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -119,10 +144,12 @@
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/regBtn"
+            android:enabled="false"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#4CAF50"
+
             android:onClick="registNow"
             android:text="@string/registBig"
             android:textColor="#FFFFFF"

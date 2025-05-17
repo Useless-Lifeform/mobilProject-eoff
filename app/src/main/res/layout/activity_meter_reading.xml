@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="@+id/bannerColor" />
 
     <Spinner
-        android:id="@+id/pmerok_spinner"
+        android:id="@+id/merokSpinner"
         android:layout_width="200dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pmerok_spinner" />
+        app:layout_constraintTop_toBottomOf="@id/merokSpinner" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,6 +56,7 @@
         app:layout_constraintBaseline_toBaselineOf="@id/meroAllasET"/>
 
     <Button
+        android:onClick="meresFeltoltes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bejelentés"
@@ -63,5 +64,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/meroAllasET" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Válassz mérőhelyet!"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/merokSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
