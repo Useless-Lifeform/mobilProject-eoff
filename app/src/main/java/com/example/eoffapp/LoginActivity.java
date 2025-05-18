@@ -64,15 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         passwordET.addTextChangedListener(loginTextWatcher);
     }
 
-/***/public void login(View view) {///MAJD VEDD KI!
-        //Intent intent = new Intent(this, ProfilActivity.class);
-        //startActivity(intent);
-        openMain();
-    }/***MAJD VEDD KI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/// lol úgyis elfejeltem xd
     public void login2(View view) {//ET EditText      TV TextView
         loginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click));
-
-
 
 
         String userName = usernameET.getText().toString();
@@ -87,19 +80,14 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(userName, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    //we are happy
-                    openMain();
-
-                }
+                if(task.isSuccessful()){ openMain(); /*we are happy*/ }
                 else{
                     //we are not happy
                     showErrorDialog("Hibás email vagy jelszó", "Kérlek ellenőrizd az adataid és próbáld újra.");
                 }
             }
         });
-
-    }//-----
+    }//----end login-
 
     private void validateInputs() {
         String emailInput = usernameET.getText().toString().trim();
@@ -110,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
 
         loginBtn.setEnabled(isEmailValid && isPasswordNotEmpty);
     }
-
     private void showErrorDialog(String title, String message) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle(title)
@@ -119,8 +106,6 @@ public class LoginActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
-
     public void regist(View view) {
         Intent registIntent = new Intent(this, RegistActivity.class);
         startActivity(registIntent);

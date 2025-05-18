@@ -1,30 +1,33 @@
 package com.example.eoffapp.models;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 public class Meres {
-    LocalDateTime date;
+    String date;
     String id;
     int meres;
     String meroszama;
 
     public Meres(){}
     public Meres( String id, int meres) {
-        this.date = LocalDateTime.now();
+        this.date = getNowAsString();
         this.id = id;
         this.meres = meres;
     }
-
-    /*public LocalDateTime getDate() {
-        return date;
-    }*/
-    public String getDate(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
-        return  date.format(formatter);
+    private String getNowAsString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
     }
 
-    public void setDate(LocalDateTime date) {
+    public String getDate(){
+        return date;
+    }
+
+    public void setDate(String date) {
         this.date = date;
     }
 

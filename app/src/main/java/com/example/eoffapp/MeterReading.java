@@ -23,18 +23,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.eoffapp.models.Meres;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class MeterReading extends AppCompatActivity {
@@ -55,15 +60,16 @@ public class MeterReading extends AppCompatActivity {
         });
 
         user = FirebaseAuth.getInstance().getCurrentUser(); if(user == null){finish();}
-        db = FirebaseFirestore.getInstance(); meroorak = db.collection("users").document(user.getUid()).collection("meroorak");
+        db = FirebaseFirestore.getInstance(); meroorak = db.collection("meters");
 
         merokSpinner = findViewById(R.id.merokSpinner);
         meroAllasET = findViewById(R.id.meroAllasET);
 
         List<String> list = new ArrayList<>();
         {
-            meroorak.get().addOnCompleteListener(task -> {
+            meroorak.whereEqualTo("userId", user.getUid()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    if(task.getResult().isEmpty()){finish();}
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         list.add(document.getId());
                     }
@@ -110,31 +116,6 @@ public class MeterReading extends AppCompatActivity {
     };
 
 
-
-    {/*
-        // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-
-        // Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-    */}
-
     public void meresFeltoltes(View view) {
         String meroszam = merokSpinner.getSelectedItem().toString();
         int allas = Integer.parseInt(meroAllasET.getText().toString());
@@ -157,19 +138,20 @@ public class MeterReading extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();
     }
-    private void saveToLocalStorage(String id, String meroszam, int allas) {
+/*    private void saveToLocalStorage(String id, String meroszam, int allas) {
         SharedPreferences prefs = getSharedPreferences("offline_data", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("pending_meroszam", meroszam);
         editor.putString("pending_allas", Integer.toString(allas) );
         editor.apply();
     }
+*/
     private void clearLocalDataIfAny() {
         SharedPreferences prefs = getSharedPreferences("offline_data", MODE_PRIVATE);
         prefs.edit().clear().apply();
     }
 
-    private void uploadData(String meroszam, int allas) {
+/*    private void uploadData(String meroszam, int allas) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
         String formattedDateTime = LocalDateTime.now().format(formatter);
@@ -178,11 +160,40 @@ public class MeterReading extends AppCompatActivity {
                 .set(  new Meres(formattedDateTime,allas) )
 
                 .addOnSuccessListener(documentReference -> {
-                    Log.d("Upload", "Sikeres feltöltés: ");// + documentReference.getId());
+                    Log.d("Upload", "Sikeres feltöltés: ");// ;
+                    clearLocalDataIfAny();
+                })
+                .addOnFailureListener(e -> Log.e("Upload", "Hiba a feltöltéskor", e));
+    }
+*/
+
+    private void uploadData(String meroszam, int allas) {
+        if (user == null) return;
+
+        Timestamp currentTimestamp = Timestamp.now();
+        String formattedKey = meroszam + "_" + new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("reading", allas);
+        data.put("userId", user.getUid());
+        data.put("timestamp", currentTimestamp);
+        data.put("serial", meroszam);
+
+        db.collection("readings").document(formattedKey)
+                .set(data)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Upload", "Sikeres feltöltés az új struktúrába.");
                     clearLocalDataIfAny();
                 })
                 .addOnFailureListener(e -> Log.e("Upload", "Hiba a feltöltéskor", e));
     }
 
+    private void saveToLocalStorage(String id, String meroszam, int allas) {
+        SharedPreferences prefs = getSharedPreferences("offline_data", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("pending_meroszam", meroszam);
+        editor.putString("pending_allas", Integer.toString(allas));
+        editor.apply();
+    }
 
 }

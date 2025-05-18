@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ProfilActivity extends AppCompatActivity {
     private LinearLayout ujJelszoBox, ujMeroBox, myMerosBox;
@@ -70,20 +71,20 @@ public class ProfilActivity extends AppCompatActivity {
     }
 
     void populateMeroorak(){///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        db.collection("users").document(UID).collection("meroorak").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                String tmp ="";
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    //Log.d(TAG, document.getId() + " => " + document.getData());
-                    tmp+=document.getId()+"\n";
-                }
-                meroorakListTW.setText(tmp);
-            } else {
-                Log.d("ProfilActivity", "Error getting documents: ", task.getException());
-            }
-
-
-        });
+        db.collection("meters")
+                .whereEqualTo("userId", UID)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        StringBuilder tmp = new StringBuilder();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            tmp.append(document.getId()).append("\n");
+                        }
+                        meroorakListTW.setText(tmp.toString());
+                    } else {
+                        Log.e("ProfilActivity", "Hiba a dokumentumok lekérdezésekor", task.getException());
+                    }
+                });
     }
     public void openCloseJelszoBox(View view) {
         if (ujJelszoBox.getVisibility() == View.GONE) {
@@ -114,16 +115,27 @@ public class ProfilActivity extends AppCompatActivity {
     }
 
     public void addMero(View view) {
-        String meroszam=ujMeroET.getText().toString();
+        String meroszam=ujMeroET.getText().toString().trim();
         if(meroszam.isBlank())
             return;
-        //TODO: formátum ellenőrzés egyedi igények szerint
         Log.d("addMero","Mero hozzaadasa");
 
-        db.collection("users").document(UID).collection("meroorak")
-                .document(meroszam).set(new HashMap<>())
-                   .addOnSuccessListener(aVoid -> {Log.d("addMero","SIKERES meroóra hozzáadva");
-                        showPopUp("Sikerers Mérőóra hozzáadás!");});
+        Map<String, Object> data = new HashMap<>();
+        data.put("serial", meroszam);
+        data.put("userId", UID);
+
+        db.collection("meters").document(meroszam)
+                .set(data)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("addMero", "Sikeres mérőóra hozzáadás");
+                    showPopUp("Sikeres Mérőóra hozzáadás!");
+                    ujMeroET.setText("");
+                    populateMeroorak(); // Frissítsük a listát is
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("addMero", "Hiba a mérő hozzáadásakor", e);
+                    showPopUp("Hiba történt a hozzáadás során.");
+                });
         ujMeroET.setText("");
     }
     private void showPopUp( String message) {

@@ -30,7 +30,7 @@
             android:textSize="16sp"
             android:text="kWh"/>
         <Button
-            android:onClick="deleteMeres"
+            android:id="@+id/meresDeleteButton"
             android:layout_width="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_height="wrap_content"
